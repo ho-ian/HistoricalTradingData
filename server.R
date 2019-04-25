@@ -382,7 +382,8 @@ shinyServer(function(input, output) {
          to give real numbers.</h4></br>
          <h3><strong>Contributors:</strong></h3></br>
          </br>
-         <h3><strong>Github Page:</strong></h3></br>")
+         <h3><strong>Github Page:</strong></h3></br>
+         <a href='https://github.com/ho-ian/HistoricalTradingData'>Link</a>")
     
   })
   
