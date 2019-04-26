@@ -19,6 +19,8 @@ install.packages('xts')
 Once everything is setup, click 'Run App' or use the command runApp('HistoricalTradingData') in the console.
 
 ### Examples
+![Single Chart](https://github.com/ho-ian/HistoricalTradingData/blob/master/screenshot/1.png)
+![Comparison Chart](https://github.com/ho-ian/HistoricalTradingData/blob/master/screenshot/2.png)
 
 ## Built With
-* [List of Yahoo Ticker Names] (http://investexcel.net/all-yahoo-finance-stock-tickers/)
+* [List of Yahoo Ticker Names](http://investexcel.net/all-yahoo-finance-stock-tickers/)
