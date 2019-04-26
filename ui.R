@@ -2,6 +2,10 @@
 library(shiny)
 library(plotly)
 
+yahooticks = "Yahoo-Ticker-Symbols-September-2017.csv"
+tickers = read.csv(yahooticks)
+tickers = tickers[4:nrow(tickers), "Yahoo.Stock.Tickers"]
+
 shinyUI(fluidPage(
   
   titlePanel("Historical Trading Data"),
@@ -18,21 +22,21 @@ shinyUI(fluidPage(
                        fluidRow(
                          column(4,
                                 h4("Stock Ticker A"),
-                                uiOutput("tickersA"),
+                                selectizeInput("tickersA", "Stock Tickers", choices = tickers, selected="AAPL"),
                                 uiOutput("timeA"),
-                                uiOutput("colorA_r"),
-                                uiOutput("colorA_g"),
-                                uiOutput("colorA_b"),
+                                sliderInput("A_r", "Red", min=0, max=255, value=150),
+                                sliderInput("A_g", "Green", min=0, max=255, value=150),
+                                sliderInput("A_b", "Blue", min=0, max=255, value=255),
                                 offset=1
                          ),
                          conditionalPanel("input.comparison==true",
                                           column(4,
                                                  h4("Stock Ticker B"),
-                                                 uiOutput("tickersB"),
+                                                 selectizeInput("tickersB", "Stock Tickers", choices = tickers, selected="GOOGL"),
                                                  uiOutput("timeB"),
-                                                 uiOutput("colorB_r"),
-                                                 uiOutput("colorB_g"),
-                                                 uiOutput("colorB_b")
+                                                 sliderInput("B_r", "Red", min=0, max=255, value=235),
+                                                 sliderInput("B_g", "Green", min=0, max=255, value=150),
+                                                 sliderInput("B_b", "Blue", min=0, max=255, value=0)
                                           )
                          ),
                          

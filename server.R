@@ -4,35 +4,14 @@ library(quantmod)
 library(plotly)
 library(xts)
 
-yahooticks = "Yahoo-Ticker-Symbols-September-2017.csv"
 
-shinyServer(function(input, output) {
-  
-  tickers = read.csv(yahooticks)
-  tickers = tickers[4:nrow(tickers), "Yahoo.Stock.Tickers"]
-  
-  
-  
-  output$tickersA <- renderUI({
-    if (input$comparison) {
-      selectizeInput("tickersA", "Stock Tickers Group A", tickers, selected="AAPL")
-    }
-    else {
-      selectizeInput("tickersA", "Stock Tickers" , tickers, selected="AAPL")
-    }
 
-  })
-  
-  output$tickersB <- renderUI({
-    if (input$comparison) {
-      selectizeInput("tickersB", "Stock Tickers Group B", tickers, selected="GOOGL")
-    }
-  })
-  
+shinyServer(function(input, output, session) {
+
   
   output$timeA <- renderUI({
     
-    sym_xtsA = getSymbols(input$tickersA, src="yahoo", auto.assign=F)
+    sym_xtsA = getSymbols(input$tickersA, src="yahoo", env=NULL)
     dates = index(sym_xtsA)
     sliderInput("dateA", "Date", 
                 min=dates[1], max=dates[length(dates)], value=dates[1],
@@ -42,7 +21,7 @@ shinyServer(function(input, output) {
   
   output$timeB <- renderUI({
     if (input$comparison) {
-      sym_xtsB = getSymbols(input$tickersB, src="yahoo", auto.assign=F)
+      sym_xtsB = getSymbols(input$tickersB, src="yahoo", env=NULL)
       dates = index(sym_xtsB)
       sliderInput("dateB", "Date", 
                   min=dates[1], max=dates[length(dates)], value=dates[1],
@@ -50,72 +29,10 @@ shinyServer(function(input, output) {
                     animationOptions(interval=1000, loop=TRUE))
     }
   })
-  
-  output$colorA_r <- renderUI({
-    
-    if (input$comparison) {
-      sliderInput("A_r", "Red Group A", min=0, max=255, value=150)
-    }
-    else {
-      sliderInput("A_r", "Red", min=0, max=255, value=150)
-    }
-  
-  })
-
-
-  output$colorA_g <- renderUI({
-    
-    if (input$comparison) {
-      sliderInput("A_g", "Green Group A", min=0, max=255, value=150)
-    }
-    else {
-      sliderInput("A_g", "Green", min=0, max=255, value=150)
-    }
-    
-    
-  })
-  
-  output$colorA_b <- renderUI({
-    
-    if (input$comparison) {
-      sliderInput("A_b", "Blue Group A", min=0, max=255, value=255)
-    }
-    else {
-      sliderInput("A_b", "Blue", min=0, max=255, value=255)
-    }
-    
-  })
-  
-  output$colorB_r <- renderUI({
-    
-    if (input$comparison) {
-      sliderInput("B_r", "Red Group B", min=0, max=255, value=235)
-    }
-    
-  })
-  
-  
-  output$colorB_g <- renderUI({
-    
-    if (input$comparison) {
-      sliderInput("B_g", "Green Group B", min=0, max=255, value=150)
-    }
-    
-    
-  })
-  
-  output$colorB_b <- renderUI({
-    
-    if (input$comparison) {
-      sliderInput("B_b", "Blue Group B", min=0, max=255, value=0)
-    }
-    
-  })
-  
    
   output$radarPlot <- renderPlotly({
     
-    sym_xtsA = getSymbols(input$tickersA, src="yahoo", auto.assign=F)
+    sym_xtsA = getSymbols(input$tickersA, src="yahoo", env=NULL)
     full_datesA = xts(order.by = seq(from = start(sym_xtsA), to = end(sym_xtsA), by= "day")) # fill in all the weekends and holidays not listed 
     sym_xtsA = merge(full_datesA, sym_xtsA, all=T) # add in the values that were recorded in the weekday and non-holidays
     sym_xtsA = na.locf(sym_xtsA) # fill in empty spaces with previous values, i.e. Saturday and Sunday would be filled in with Friday's values
@@ -136,7 +53,7 @@ shinyServer(function(input, output) {
     
     if (input$comparison) {
       
-      sym_xtsB = getSymbols(input$tickersB, src="yahoo", auto.assign=F)
+      sym_xtsB = getSymbols(input$tickersB, src="yahoo", env=NULL)
       full_datesB = xts(order.by = seq(from = start(sym_xtsB), to = end(sym_xtsB), by= "day")) # fill in all the weekends and holidays not listed 
       sym_xtsB = merge(full_datesB, sym_xtsB, all=T) # add in the values that were recorded in the weekday and non-holidays
       sym_xtsB = na.locf(sym_xtsB) # fill in empty spaces with previous values, i.e. Saturday and Sunday would be filled in with Friday's values
@@ -237,7 +154,7 @@ shinyServer(function(input, output) {
   
   output$xtsInfo <- renderPlotly({
     
-    sym_xtsA = getSymbols(input$tickersA, src="yahoo", auto.assign=F)
+    sym_xtsA = getSymbols(input$tickersA, src="yahoo", env=NULL)
     full_datesA = xts(order.by = seq(from = start(sym_xtsA), to = end(sym_xtsA), by= "day")) # fill in all the weekends and holidays not listed 
     sym_xtsA = merge(full_datesA, sym_xtsA, all=T) # add in the values that were recorded in the weekday and non-holidays
     sym_xtsA = na.locf(sym_xtsA) # fill in empty spaces with previous values, i.e. Saturday and Sunday would be filled in with Friday's values
@@ -252,7 +169,7 @@ shinyServer(function(input, output) {
     
     
     if (input$comparison) {
-      sym_xtsB = getSymbols(input$tickersB, src="yahoo", auto.assign=F)
+      sym_xtsB = getSymbols(input$tickersB, src="yahoo", env=NULL)
       full_datesB = xts(order.by = seq(from = start(sym_xtsB), to = end(sym_xtsB), by= "day")) # fill in all the weekends and holidays not listed 
       sym_xtsB = merge(full_datesB, sym_xtsB, all=T) # add in the values that were recorded in the weekday and non-holidays
       sym_xtsB = na.locf(sym_xtsB) # fill in empty spaces with previous values, i.e. Saturday and Sunday would be filled in with Friday's values
