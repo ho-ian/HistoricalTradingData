@@ -4,6 +4,8 @@ appealing as well as informative in a different way; being able to compare multi
 packages that could be used for obtaining and analyzing stock data (quantmod). I could gather stock ticker data from yahoo's api
 as long as I knew the name. I used a list of ticker names from an excel spreadsheet found online. 
 
+![Deployed Version (may take a long time to load)](https://hoianshiny.shinyapps.io/HistoricalTradingData/)
+
 ## Getting Started
 To get started using my app locally, just pull the repository and make sure you have R installed with shiny web app capabilities.
 
